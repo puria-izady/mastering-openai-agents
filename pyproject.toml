@@ -1,0 +1,41 @@
+[project]
+name = "mastering-openai-agents"
+version = "0.1.0"
+description = "Workspace for the Mastering OpenAI Agents course labs."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "agents-sdk-sampler",
+  "handoffs-patterns",
+  "realtime-voice-agent",
+  "sandboxagent-sampler",
+  "sql-analyzer-agent",
+  "text-stats",
+]
+
+[dependency-groups]
+dev = [
+  "pytest-asyncio>=0.23",
+  "pytest>=8.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+agents-sdk-sampler = { workspace = true }
+handoffs-patterns = { workspace = true }
+realtime-voice-agent = { workspace = true }
+sandboxagent-sampler = { workspace = true }
+sql-analyzer-agent = { workspace = true }
+text-stats = { workspace = true }
+
+[tool.uv.workspace]
+members = [
+  "lab-00-codex-workflow/reference-solution",
+  "lab-01-agents-sdk-sampler/reference-solution",
+  "lab-02-handoffs-patterns/reference-solution",
+  "lab-03-sandboxagent-sampler/reference-solution",
+  "lab-04-sql-analyzer/reference-solution",
+  "lab-05-realtime-voice-agent/reference-solution",
+]

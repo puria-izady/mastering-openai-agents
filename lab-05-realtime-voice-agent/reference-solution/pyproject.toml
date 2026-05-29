@@ -1,0 +1,30 @@
+[project]
+name = "realtime-voice-agent"
+version = "0.1.0"
+description = "Lab 05 reference solution for a Python OpenAI Agents SDK voice pipeline."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "openai-agents[voice]>=0.17.1,<0.18",
+    "numpy>=2.0,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+]
+mic = [
+    "sounddevice>=0.5,<0.6",
+]
+
+[project.scripts]
+voice-agent = "realtime_voice_agent.app:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

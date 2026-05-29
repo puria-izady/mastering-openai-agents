@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab 05 Realtime Agent</title>
+  </head>
+  <body>
+    <main class="app">
+      <section class="panel">
+        <h1>Realtime Course Assistant</h1>
+        <p>
+          Browser speech-to-speech with the OpenAI Agents SDK
+          <code>RealtimeAgent</code> and <code>RealtimeSession</code>.
+        </p>
+        <div class="actions">
+          <button id="connect" type="button">Start realtime session</button>
+          <button id="disconnect" type="button" disabled>Stop</button>
+        </div>
+        <label>
+          Text event
+          <input id="textPrompt" value="What is the difference between VoicePipeline and RealtimeSession?" />
+        </label>
+        <button id="sendText" type="button" disabled>Send text event</button>
+        <pre id="status">Idle</pre>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

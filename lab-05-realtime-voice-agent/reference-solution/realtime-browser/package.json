@@ -1,0 +1,27 @@
+{
+  "name": "lab-05-realtime-browser-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "server": "node server/server.mjs",
+    "build": "vite build",
+    "preview": "node server/server.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@openai/agents": "^0.11.5",
+    "express": "^5.1.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@vitejs/plugin-basic-ssl": "^2.1.0",
+    "jsdom": "^27.0.0",
+    "typescript": "^5.9.0",
+    "vite": "^7.0.0",
+    "vitest": "^4.0.0"
+  }
+}

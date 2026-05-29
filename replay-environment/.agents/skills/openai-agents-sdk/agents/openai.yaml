@@ -1,0 +1,4 @@
+interface:
+  display_name: "OpenAI Agents SDK"
+  short_description: "Build SDK-first OpenAI Agents and SandboxAgent labs"
+  default_prompt: "Use $openai-agents-sdk to keep this course lab built directly on OpenAI Agents SDK primitives."

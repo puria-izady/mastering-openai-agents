@@ -1,0 +1,3 @@
+[submodule "replay-environment/.agents/skills/openai-agents-sdk/openai-agents-python"]
+	path = replay-environment/.agents/skills/openai-agents-sdk/openai-agents-python
+	url = https://github.com/openai/openai-agents-python.git
