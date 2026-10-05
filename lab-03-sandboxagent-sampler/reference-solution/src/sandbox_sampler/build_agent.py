@@ -18,7 +18,7 @@ from agents.run_config import SandboxRunConfig
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_SANDBOX_MODEL = "gpt-5-mini"
+DEFAULT_SANDBOX_MODEL = "gpt-6-luna"
 MEMORY_EXTRA_PROMPT = (
     "For this course lab, preserve durable repo conventions, the exact failing "
     "calculator behavior found, the smallest fix applied, and any verification "

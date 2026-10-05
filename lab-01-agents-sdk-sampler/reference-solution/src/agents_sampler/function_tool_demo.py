@@ -18,7 +18,7 @@ def get_plan_note(plan: str) -> str:
     return LOOKUP.get(plan.lower(), "Unknown plan.")
 
 
-def build_agent(model: str = "gpt-5.5") -> Agent:
+def build_agent(model: str = "gpt-6-luna") -> Agent:
     return Agent(
         name="Plan helper",
         instructions="Use get_plan_note when the user asks about a product plan.",

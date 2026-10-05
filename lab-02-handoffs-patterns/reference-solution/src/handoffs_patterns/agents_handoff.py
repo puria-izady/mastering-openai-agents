@@ -5,7 +5,7 @@ from agents import Agent, Runner
 from .run_config import build_run_config
 
 
-def build_specialists(model: str = "gpt-5.5") -> tuple[Agent, Agent]:
+def build_specialists(model: str = "gpt-6-luna") -> tuple[Agent, Agent]:
     billing = Agent(
         name="Billing specialist",
         handoff_description="Owns invoice, charge, refund, and plan-price questions.",
@@ -21,7 +21,7 @@ def build_specialists(model: str = "gpt-5.5") -> tuple[Agent, Agent]:
     return billing, technical
 
 
-def build_triage_agent(model: str = "gpt-5.5") -> Agent:
+def build_triage_agent(model: str = "gpt-6-luna") -> Agent:
     billing, technical = build_specialists(model)
     return Agent(
         name="Support triage",

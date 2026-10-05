@@ -68,3 +68,13 @@ def test_agent_returns_structured_answer_when_api_key_is_available(tmp_path: Pat
     assert answer.sql
     assert answer.rows
     assert answer.explanation
+
+
+def test_agent_default_uses_luna_and_keeps_model_override(monkeypatch) -> None:
+    from sql_analyzer.agent import build_agent
+
+    monkeypatch.delenv("OPENAI_DEFAULT_MODEL", raising=False)
+    assert build_agent().model == "gpt-6-luna"
+    monkeypatch.setenv("OPENAI_DEFAULT_MODEL", "custom-model")
+    assert build_agent().model == "custom-model"
+    assert build_agent(model="explicit-model").model == "explicit-model"

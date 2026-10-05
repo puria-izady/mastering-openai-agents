@@ -1,5 +1,8 @@
 # Prompt Pack: Lab 01
 
+
+Default all SDK Agent/SandboxAgent model settings to `gpt-6-luna`. Keep modality-specific transcription, speech, and realtime audio model IDs unchanged.
+
 Use these prompts in order. The reference must use direct OpenAI Agents SDK
 objects, not course abstractions. Add `build_run_config()` and pass the returned
 `RunConfig` into every runnable `Runner.run(...)` example.

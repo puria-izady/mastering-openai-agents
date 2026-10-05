@@ -1,10 +1,11 @@
 from agents import Agent
 
 from agents_sampler.function_tool_demo import LOOKUP, build_agent as build_tool_agent
-from agents_sampler.guardrail_demo import classify_domain
+from agents_sampler.first_agent import build_agent as build_first_agent
+from agents_sampler.guardrail_demo import build_agent as build_guardrail_agent, classify_domain
 from agents_sampler.models import CalendarEvent
 from agents_sampler.run_config import build_run_config
-from agents_sampler.session_demo import build_session
+from agents_sampler.session_demo import build_agent as build_session_agent, build_session
 from agents_sampler.structured_extractor import build_agent as build_extractor
 
 
@@ -38,3 +39,8 @@ def test_run_config_is_visible_sdk_object() -> None:
     config = build_run_config()
     assert config.workflow_name == "lab-01-agents-sdk-sampler"
     assert config.trace_metadata["lab"] == "01"
+
+
+def test_all_agent_defaults_use_luna() -> None:
+    for builder in (build_first_agent, build_tool_agent, build_guardrail_agent, build_session_agent, build_extractor):
+        assert builder().model == "gpt-6-luna"

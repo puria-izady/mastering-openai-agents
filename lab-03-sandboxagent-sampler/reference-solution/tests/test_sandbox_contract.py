@@ -30,7 +30,7 @@ def test_manifest_seeds_memory_files() -> None:
 def test_sandbox_agent_has_expected_capabilities() -> None:
     agent = build_sandbox_agent()
     assert isinstance(agent, SandboxAgent)
-    assert agent.model == DEFAULT_SANDBOX_MODEL
+    assert agent.model == DEFAULT_SANDBOX_MODEL == "gpt-6-luna"
     assert "stop using tools" in agent.instructions
     capability_names = {capability.type for capability in agent.capabilities}
     assert {"filesystem", "shell", "skills", "memory"}.issubset(capability_names)
@@ -46,7 +46,7 @@ def test_unix_local_run_config_is_configured() -> None:
 
 
 def test_memory_capability_has_explicit_layout_and_generation_models() -> None:
-    memory = build_memory_capability(model="gpt-5-mini")
+    memory = build_memory_capability(model="gpt-6-luna")
 
     assert isinstance(memory, Memory)
     assert isinstance(memory.layout, MemoryLayoutConfig)
@@ -55,8 +55,8 @@ def test_memory_capability_has_explicit_layout_and_generation_models() -> None:
     assert isinstance(memory.read, MemoryReadConfig)
     assert memory.read.live_update is True
     assert isinstance(memory.generate, MemoryGenerateConfig)
-    assert memory.generate.phase_one_model == "gpt-5-mini"
-    assert memory.generate.phase_two_model == "gpt-5-mini"
+    assert memory.generate.phase_one_model == "gpt-6-luna"
+    assert memory.generate.phase_two_model == "gpt-6-luna"
 
 
 def test_build_run_config_for_session_returns_sdk_run_config() -> None:
@@ -110,3 +110,9 @@ def test_sandbox_demo_skips_cleanly_without_api_key(monkeypatch, capsys) -> None
     output = capsys.readouterr().out
     assert "Skipping API-backed SandboxAgent demo" in output
     assert "OPENAI_API_KEY is not set" in output
+
+
+def test_memory_defaults_use_luna() -> None:
+    memory = build_memory_capability()
+    assert memory.generate.phase_one_model == "gpt-6-luna"
+    assert memory.generate.phase_two_model == "gpt-6-luna"

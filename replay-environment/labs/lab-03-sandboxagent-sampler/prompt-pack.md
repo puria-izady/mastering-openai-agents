@@ -1,5 +1,7 @@
 # Prompt Pack: Lab 03
 
+Default all SDK Agent/SandboxAgent model settings to `gpt-6-luna`. Keep modality-specific transcription, speech, and realtime audio model IDs unchanged.
+
 ## Prompt 1
 
 ```text
@@ -22,10 +24,15 @@ Important SandboxAgent mounting requirement:
 Create SandboxAgent lab instructions that ask the agent to inspect the workspace,
 read AGENTS.md, run tests, and identify the failing behavior before editing.
 
-The instructions must also tell the agent that once the fix is made and tests
-pass, it should stop using tools and immediately provide the final summary. This
-prevents the demo from continuing to call tools after the debugging task is
-complete.
+The instructions should explain that the calculator repository is mounted at
+`repo` and the seeded `memories/` directory is at the sandbox workspace root,
+alongside `repo`. After the smallest fix is made and tests pass, have the agent
+write a durable note about the repository convention and exact verification
+command to `memories/MEMORY.md`, keep `memories/memory_summary.md` consistent,
+and reread both files to verify the note. Explicitly tell it not to use
+`../memories` from inside `repo`, since that path escapes the sandbox root.
+After the memory note is written and verified, it should stop using tools and
+immediately provide the final summary.
 ```
 
 ## Prompt 3
@@ -40,46 +47,27 @@ fix, run tests, and summarize the change.
 ## Prompt 4
 
 ```text
-Add a memory exercise.
+Implement persistent file-based memory across two SandboxAgent runs in this lab.
 
-The agent should write a durable note about the repo convention, then a second
-run should verify that the note is available.
+Keep this as course material, not a required local two-run API test. Seed
+`memories/MEMORY.md` and `memories/memory_summary.md` locally and in the
+manifest (`Dir`/`File` entries under relative `memories/`). Since `repo` and
+`memories/` are siblings at the sandbox root, instruct the agent to use
+`memories/...` directly, never `../memories` from inside `repo`.
 
-Keep this as course material, not a required local two-run API test. Add a
-Markdown resumption worksheet and seeded memory files such as
-`memories/MEMORY.md` and `memories/memory_summary.md`. Local tests should verify
-that the files exist and that the SandboxAgent has the `Memory` capability.
+Configure `Memory` explicitly with `MemoryLayoutConfig(memories_dir="memories",
+sessions_dir="sessions")`, `MemoryReadConfig(live_update=True)`, and
+`MemoryGenerateConfig` using the runner model plus brief guidance to preserve
+repo conventions, minimal fixes, and verification commands. Keep
+`Filesystem()`, `Shell()`, `Skills(...)`, and `Memory(...)` explicit. Add local
+checks for the seeded files and Memory capability.
 
-Important: seed those same memory files into the SDK sandbox manifest under a
-relative `memories` entry using SDK `Dir` and `File` entries. The local
-`memories/` folder is the stable course artifact, but API-backed runs should
-start with `memories/MEMORY.md` and `memories/memory_summary.md` already present
-inside the active sandbox workspace.
-
-Configure memory explicitly instead of using a bare `Memory()`:
-- use `MemoryLayoutConfig(memories_dir="memories", sessions_dir="sessions")`
-- use `MemoryReadConfig(live_update=True)`
-- use `MemoryGenerateConfig(...)` with the same model used for the lab runner
-  and a short extra prompt that preserves repo conventions, smallest fixes, and
-  verification commands
-
-Keep `Filesystem()`, `Shell()`, `Skills(...)`, and `Memory(...)` as explicit
-capabilities. Memory reads need shell access, and live updates need filesystem
-access.
-
-The worksheet must include concrete inspection guidance for generated memory:
-- explain that generated sandbox memory normally lives under `memories/` in the
-  active sandbox workspace
-- tell you to inspect `memories/MEMORY.md` and
-  `memories/memory_summary.md`
-- include example commands using the sandbox workspace path printed or observed
-  during the run, for example `find <sandbox-root>/memories -maxdepth 2 -type f`
-  and `cat <sandbox-root>/memories/MEMORY.md`
-- mention that temporary UnixLocal sandbox workspaces may be deleted after
-  cleanup, so the stable seeded course artifact is the local `memories/` folder
-- mention that runnable demos should export the final sandbox workspace into
-  `artifacts/` before deleting the temporary UnixLocal workspace, so generated
-  memories remain inspectable after the process exits
+Add a short worksheet: run one writes and rereads the repo convention and test
+command in both files; run two reads them and reports the saved note. Explain
+that generated memory is under `<sandbox-root>/memories/`, show `find`/`cat`
+inspection commands, and note that temporary UnixLocal workspaces may vanish.
+Runnable demos should export the workspace to `artifacts/` before cleanup so
+generated memory remains inspectable.
 ```
 
 ## Prompt 5
@@ -123,7 +111,7 @@ Use Runner.run_streamed and print:
 
 Keep a --no-stream option for the non-streamed Runner.run path.
 
-Use a GPT-5 family model by default, for example `gpt-5-mini`, because the
+Use `gpt-6-luna` as the default model, because the
 `Filesystem()` capability exposes `apply_patch` as a Responses custom tool.
 Add a `--model` CLI option and `OPENAI_SANDBOX_MODEL` override.
 Add a `--max-turns` CLI option with a default of at least 20, because the
@@ -157,36 +145,30 @@ Important cleanup and failure behavior:
 ## Prompt 7
 
 ```text
-Add a short memory-only smoke runner.
+Create run_memory_demo.py: one command performs two SandboxAgent runs and
+verifies that SDK memory generation produces two distinct raw memories.
 
-Create `run_memory_smoke.py` that skips the calculator debugging task. It should
-only verify sandbox memory:
+Use the lab agent with Memory reads and generation enabled. Create one
+LocalSnapshot with a unique ID per invocation under artifacts/memory-snapshots;
+pass the same snapshot object to both UnixLocalSandboxClient.create calls.
+Use the lab manifest with relative paths and
+RunConfig(sandbox=SandboxRunConfig(session=sandbox)), with a distinct group_id
+for each run and fresh conversation history.
 
-1. Create a live UnixLocal sandbox session with the lab manifest and
-   `LocalSnapshotSpec`.
-2. Run the SandboxAgent once with a prompt that writes a small durable note to
-   `memories/MEMORY.md` and updates `memories/memory_summary.md`.
-3. Close the session so SDK memory generation can flush.
-4. Serialize and resume the sandbox session state with the same
-   `UnixLocalSandboxClient`.
-5. Run the SandboxAgent a second time with a prompt that reads
-   `memories/MEMORY.md` and `memories/memory_summary.md` and confirms the note is
-   available.
-6. Export the final resumed workspace to `artifacts/memory-smoke-workspace`
-   before deleting the temporary UnixLocal workspace.
+1. Start the first sandbox. Ask the agent to read repo/AGENTS.md and inspect
+   the calculator source, then report a concrete repo convention and its source.
+2. Close it to flush SDK memory generation and save the snapshot. Verify one
+   raw_memories/*.md file exists; retain its name and contents.
+3. Create and start a second sandbox from the same snapshot. Verify the first
+   memory survived. Ask the agent to read that memory, inspect and run the
+   calculator tests, and report how the convention applies and what tests
+   revealed. Do not repair the calculator in this memory-only demo.
+4. Close the second sandbox, then export to artifacts/memory-demo-workspace.
+   Verify two distinct raw_memories/*.md files, the unchanged first raw memory,
+   and matching rollout_summaries/*.md files. Print their paths and both final
+   outputs. Fail clearly if generation or verification fails.
 
-The script should require `OPENAI_API_KEY` for API-backed execution and skip
-cleanly without it.
-
-Add README instructions:
-
-```bash
-OPENAI_API_KEY=... uv run --extra dev python run_memory_smoke.py
-cat artifacts/memory-smoke-workspace/memories/MEMORY.md
-cat artifacts/memory-smoke-workspace/memories/memory_summary.md
-```
-
-Add local tests that verify the smoke runner exists, uses `client.resume`, uses
-workspace export, references `memories/MEMORY.md`, and does not ask the agent to
-debug the calculator repo.
+Use `await sandbox.aclose()` to close a sandbox session explicitly. The SDK
+session exposes `aclose()`. Call `await client.delete(sandbox)`
+after `aclose()` when the temporary UnixLocal workspace should be removed.
 ```

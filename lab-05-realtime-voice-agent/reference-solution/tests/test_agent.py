@@ -6,11 +6,11 @@ from realtime_voice_agent.agent import build_voice_agent, lookup_lab_answer_reco
 
 
 def test_build_voice_agent_returns_real_sdk_agent() -> None:
-    agent = build_voice_agent(model="gpt-5-mini")
+    agent = build_voice_agent()
 
     assert isinstance(agent, Agent)
     assert agent.name == "voice_course_assistant"
-    assert agent.model == "gpt-5-mini"
+    assert agent.model == "gpt-6-luna"
 
 
 def test_tool_name_is_function_call_safe() -> None:

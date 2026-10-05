@@ -1,5 +1,7 @@
 # Prompt Pack: Recreate the SQL Analyzer Agent with Codex
 
+Default all SDK Agent/SandboxAgent model settings to `gpt-6-luna`. Keep modality-specific transcription, speech, and realtime audio model IDs unchanged.
+
 Use these prompts in sequence from an empty workspace.
 
 The final project should include the same core components as the reference

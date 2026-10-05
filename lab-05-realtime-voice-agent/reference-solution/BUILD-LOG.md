@@ -112,3 +112,15 @@ Verification:
 - `npm test` passed with 6 tests.
 - `npm run typecheck` passed.
 - `npm run build` passed.
+
+
+## 2026-10-05 — GPT-6 Luna default update
+
+Updated text/sandbox agent defaults to `gpt-6-luna` and verified SDK model
+contracts locally. Explicit model overrides remain available; dedicated
+transcription, speech, and realtime models are unchanged.
+
+Local pytest suite: **12 passed**, using openai-agents 0.17.3.
+API credentials were removed from the test environment. No live model calls
+were made; this verifies configuration and local behavior, not live API access.
+No-key demo check: skipped API execution successfully (exit 0).

@@ -7,7 +7,7 @@ from agents import Agent, Runner, SQLiteSession
 from .run_config import build_run_config
 
 
-def build_agent(model: str = "gpt-5.5") -> Agent:
+def build_agent(model: str = "gpt-6-luna") -> Agent:
     return Agent(
         name="Preference assistant",
         instructions="Remember the user's preferences across turns when a session is provided.",

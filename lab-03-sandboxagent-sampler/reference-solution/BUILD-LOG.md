@@ -72,3 +72,15 @@ Verification:
   cleanly without `OPENAI_API_KEY`.
 - `uv run python -m sandbox_sampler.run_sandbox_demo --no-stream --max-turns 30`
   skips cleanly without `OPENAI_API_KEY`.
+
+
+## 2026-10-05 — GPT-6 Luna default update
+
+Updated text/sandbox agent defaults to `gpt-6-luna` and verified SDK model
+contracts locally. Explicit model overrides remain available; dedicated
+transcription, speech, and realtime models are unchanged.
+
+Local pytest suite: **10 passed, 1 skipped**, using openai-agents 0.17.3.
+API credentials were removed from the test environment. No live model calls
+were made; this verifies configuration and local behavior, not live API access.
+No-key demo check: skipped API execution successfully (exit 0).

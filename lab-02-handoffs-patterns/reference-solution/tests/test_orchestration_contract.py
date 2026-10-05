@@ -47,3 +47,8 @@ def test_collect_tool_outputs_reads_sdk_run_items() -> None:
         ]
     )
     assert collect_tool_outputs(result) == ["billing analysis", "{'status': 'ok'}"]
+
+
+def test_all_agent_defaults_use_luna() -> None:
+    agents = (*build_specialists(), build_triage_agent(), build_manager())
+    assert all(agent.model == "gpt-6-luna" for agent in agents)

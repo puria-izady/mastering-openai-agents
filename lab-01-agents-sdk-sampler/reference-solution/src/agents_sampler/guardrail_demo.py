@@ -27,7 +27,7 @@ async def agents_domain_guardrail(
     return GuardrailFunctionOutput(output_info=check, tripwire_triggered=not check.allowed)
 
 
-def build_agent(model: str = "gpt-5.5") -> Agent:
+def build_agent(model: str = "gpt-6-luna") -> Agent:
     return Agent(
         name="Agents domain tutor",
         instructions="Answer only questions about the OpenAI Agents SDK.",

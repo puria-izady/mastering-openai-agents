@@ -6,7 +6,7 @@ from .models import CalendarEvent
 from .run_config import build_run_config
 
 
-def build_agent(model: str = "gpt-5.5") -> Agent:
+def build_agent(model: str = "gpt-6-luna") -> Agent:
     return Agent(
         name="Calendar extractor",
         instructions="Extract one calendar event from the user's message.",

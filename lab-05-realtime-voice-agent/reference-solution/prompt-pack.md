@@ -1,5 +1,7 @@
 # Lab 05 Prompt Pack: Realtime Voice Agent
 
+Default all SDK Agent/SandboxAgent model settings to `gpt-6-luna`. Keep modality-specific transcription, speech, and realtime audio model IDs unchanged.
+
 Use this prompt pack to rebuild the Lab 05 reference solution from scratch in
 `lab-05-realtime-voice-agent/reference-solution/`.
 

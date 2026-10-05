@@ -50,6 +50,9 @@ Each `reference-solution/` should contain:
 
 ## Course Implementation Rules
 
+- Default text and sandbox agents, including sandbox memory generation, to
+  `gpt-6-luna`. Preserve explicit model overrides and dedicated transcription,
+  speech, and realtime audio model IDs.
 - Use the OpenAI Agents SDK directly. Do not hide the SDK behind
   course-specific framework abstractions such as custom runner, workflow, or
   base-agent layers.

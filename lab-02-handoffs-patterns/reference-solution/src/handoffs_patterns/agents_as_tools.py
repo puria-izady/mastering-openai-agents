@@ -27,7 +27,7 @@ def collect_tool_outputs(result: Any) -> list[str]:
     return outputs
 
 
-def build_manager(model: str = "gpt-5.5") -> Agent:
+def build_manager(model: str = "gpt-6-luna") -> Agent:
     billing, technical = build_specialists(model)
     return Agent(
         name="Support manager",

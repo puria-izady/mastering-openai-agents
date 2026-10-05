@@ -225,7 +225,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument(
         "--model",
         default=os.environ.get("OPENAI_SANDBOX_MODEL", DEFAULT_SANDBOX_MODEL),
-        help="Model for the SandboxAgent. Use a GPT-5 family model for custom tool support.",
+        help="Model for the SandboxAgent. Defaults to gpt-6-luna with custom tool support.",
     )
     parser.add_argument("--export-dir", default="artifacts/latest-workspace")
     parser.add_argument("--snapshot-dir", default="artifacts/snapshots")

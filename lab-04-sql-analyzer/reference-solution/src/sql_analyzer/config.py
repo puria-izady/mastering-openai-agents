@@ -9,7 +9,7 @@ DEFAULT_DB_PATH = PROJECT_ROOT / "data" / "ecommerce.db"
 
 
 def get_model() -> str:
-    return os.getenv("OPENAI_DEFAULT_MODEL", "gpt-5.5")
+    return os.getenv("OPENAI_DEFAULT_MODEL", "gpt-6-luna")
 
 
 def get_db_path() -> Path:

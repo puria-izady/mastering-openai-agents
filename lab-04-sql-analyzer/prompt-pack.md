@@ -1,5 +1,8 @@
 # Prompt Pack: Recreate the SQL Analyzer Agent with Codex
 
+
+Default all SDK Agent/SandboxAgent model settings to `gpt-6-luna`. Keep modality-specific transcription, speech, and realtime audio model IDs unchanged.
+
 Use these prompts in sequence from an empty workspace.
 
 ## Prompt 1: Scaffold
@@ -82,21 +85,4 @@ Requirements:
   strict schema issues are caught before a real model run.
 
 Run tests after implementation.
-```
-
-## Prompt 5: Evals And Lab Materials
-
-```text
-Add a small eval runner and course materials.
-
-Create Markdown files only for course content:
-- lab-guide.md
-- discussion-guide.md
-- verification-checklist.md
-- prompt-pack.md
-
-Add an eval command that runs local SQL safety checks without an API key and
-agent-backed checks when OPENAI_API_KEY is available.
-
-Run tests and the eval command.
 ```

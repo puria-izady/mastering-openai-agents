@@ -21,3 +21,16 @@
   open-ended `dict[str, Any]` final rows with ordered value arrays matching the
   `columns` field.
 - Verification: `uv run pytest -q` -> 17 passed, 1 skipped.
+
+
+## 2026-10-05 — GPT-6 Luna default update
+
+Updated text/sandbox agent defaults to `gpt-6-luna` and verified SDK model
+contracts locally. Explicit model overrides remain available; dedicated
+transcription, speech, and realtime models are unchanged.
+
+Local pytest suite: **19 passed, 1 skipped**, using openai-agents 0.17.3.
+API credentials were removed from the test environment. No live model calls
+were made; this verifies configuration and local behavior, not live API access.
+No-key demo check: printed the existing credential requirement and exited 1.
+SQL eval: all five local safety checks passed; agent checks skipped without a key.
